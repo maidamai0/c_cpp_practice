@@ -17,6 +17,19 @@ endif()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
+find_program(GIT_CHGLOG git-chglog)
+if(GIT_CHGLOG)
+  message(STATUS "Found git-chglog:${GIT_CHGLOG}")
+  execute_process(
+    COMMAND ${GIT_CHGLOG}
+    OUTPUT_FILE CHANGELOG.md
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+  )
+else()
+  message(STATUS "git-chglog not found, changelog will not be updated")
+endif()
+
+
 enable_testing()
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/deps/fmt)
