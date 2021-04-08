@@ -1,0 +1,20 @@
+cmake_minimum_required(VERSION 3.16)
+
+get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} NAME)
+project(${ROOT} CXX)
+
+set(CMAKE_GENERATOR Ninja)
+
+# cpp compiler settings
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+# checks
+set(CMAKE_CXX_CLANG_TIDY ON)
+
+if(WI32)
+  add_compile_options(/fsanitize=address)
+endif()
+
+add_subdirectory(src)
