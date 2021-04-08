@@ -7,8 +7,8 @@ some code based on [All C++20 core language features with examples](https://olek
 
 ## Progress
 
-[x]  Concept
+- [x] Concept
 
-[ ]  Modules, seems not cross platform(ixx, cppm???)
+- [ ] Modules, seems not cross platform(ixx, cppm???)
 
-[ ]  Coroutines
+- [ ] Coroutines
