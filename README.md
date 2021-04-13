@@ -12,3 +12,5 @@ some code based on [All C++20 core language features with examples](https://olek
 - [ ] Modules, seems not cross platform(ixx, cppm???)
 
 - [ ] Coroutines
+
+- [ ] Ranges

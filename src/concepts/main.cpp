@@ -37,6 +37,20 @@ requires Addable<T>&& Comparable<T>&& Serialiable<T> auto UseAddConcept(T a,
   return a + b;
 }
 
+template <typename T>
+requires Addable<T> auto UseAddable(T a, T b) {
+  return a + b;
+}
+
+template <Addable T>
+auto UseAddable2(T a, T b) {
+  return a + b;
+}
+
+auto UseAddable3(const Addable auto& a, const Addable auto& b) {
+  return a + b;
+}
+
 struct Foo {
   Foo operator+(const Foo& b) {
     Foo c;
@@ -95,6 +109,10 @@ int main(int argc, char** argv) {
   auto str_b = std::string("b");
   const auto str_sum = UseAddConcept(str_a, str_b);
   fmt::print("std::string sum is {}\n", str_sum);
+
+  UseAddable(str_a, str_b);
+  UseAddable2(str_a, str_b);
+  UseAddable3(str_a, str_b);
 
   Foo f_a;
   Foo f_b;
