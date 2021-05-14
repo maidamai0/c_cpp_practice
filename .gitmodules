@@ -1,3 +1,15 @@
 [submodule "deps/fmt"]
 	path = deps/fmt
 	url = https://github.com/fmtlib/fmt.git
+[submodule "deps/nlohmann_json"]
+	path = deps/nlohmann_json
+	url = https://github.com/nlohmann/json.git
+[submodule "deps/nanobench"]
+	path = deps/nanobench
+	url = https://github.com/martinus/nanobench.git
+[submodule "deps/doctest"]
+	path = deps/doctest
+	url = https://github.com/onqtam/doctest.git
+[submodule "deps/magic_enum"]
+	path = deps/magic_enum
+	url = https://github.com/Neargye/magic_enum.git

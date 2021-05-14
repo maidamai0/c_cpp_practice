@@ -32,9 +32,15 @@ else()
   message(STATUS "git-chglog not found, changelog will not be updated")
 endif()
 
+# dependencies
+add_compile_definitions(ANKERL_NANOBENCH_IMPLEMENT)
+add_compile_definitions(DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/deps/fmt)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/deps/nanobench/src/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/deps/nlohmann_json/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/deps/doctest)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/deps/magic_enum/include)
+link_libraries(fmt::fmt-header-only)
 
 enable_testing()
-
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/deps/fmt)
-link_libraries(fmt::fmt-header-only)
 add_subdirectory(src)
