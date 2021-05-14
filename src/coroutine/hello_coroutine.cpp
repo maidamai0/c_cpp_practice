@@ -25,6 +25,5 @@ int main() {
   HelloWorldCoro mycoro = print_hello_world();
   mycoro.m_handle.resume();
   mycoro.m_handle();  // Equal to mycoro.m_handle.resume();
-  mycoro.m_handle();
   return EXIT_SUCCESS;
 }
