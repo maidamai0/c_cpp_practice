@@ -7,7 +7,7 @@
 #include "doctest/doctest.h"
 #include "fmt/format.h"
 
-constexpr auto operator""_s(size_t seconds) -> std::chrono::seconds {
+constexpr auto operator""_s(unsigned long long seconds) -> std::chrono::seconds {
   return std::chrono::seconds(seconds);
 }
 
