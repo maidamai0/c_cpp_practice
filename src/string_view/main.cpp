@@ -82,9 +82,7 @@ auto main(int argc, char** argv) -> int {
   fmt::print("Date digit is [{}]\n", fmt::format("{}/{}/{}", day_digit, month_digit, year_digit));
   std::fflush(stdout);
 
-  char ts[1024] = {0};
-  sprintf_s(ts, "%02d/%02d/%02d", day_digit, month_digit, year_digit);
-  fmt::print("ts is [{}]\n", ts);
+  fmt::print("ts is [{}]\n", fmt::format("{:02}/{:02}/{}",day_digit, month_digit, year_digit));
   std::fflush(stdout);
 
   // constexpr auto year_digit = (year[2] - '0') * 10 + (year[3] - '0');
