@@ -63,7 +63,7 @@ TEST_CASE("no lock") {
     worker.join();
   }
 
-  CHECK(sum == worker_num * worker_num);
+  CHECK(sum != worker_num * worker_num);
 }
 
 TEST_CASE("spin lock") {
