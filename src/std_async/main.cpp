@@ -3,9 +3,11 @@
 #include <string>
 #include <thread>
 
+#include "common/stopwatch.h"
+#include "doctest/doctest.h"
 #include "fmt/format.h"
 
-constexpr auto operator""_s(unsigned long long seconds) -> std::chrono::seconds {
+constexpr auto operator""_s(size_t seconds) -> std::chrono::seconds {
   return std::chrono::seconds(seconds);
 }
 
@@ -14,71 +16,64 @@ auto sleep(const std::chrono::seconds secs) -> void {
 }
 
 class print_guard {
-public:
+ public:
   print_guard(std::string&& message) : message_(message) {
     fmt::print("enter {}\n", message_);
   }
 
-  ~print_guard() {
-    fmt::print("leave {}\n", message_);
-  }
+  ~print_guard() { fmt::print("leave {}\n", message_); }
 
-private:
+ private:
   const std::string message_;
 };
 
+#define PG print_guard pg(__FUNCTION__);
+
 auto sleep_for_1_second() {
+  PG;
   sleep(1_s);
-  fmt::print("leave {}\n", __FUNCTION__);
   return fmt::format("message from {}()", __FUNCTION__);
 }
 
 // block caller thread when future is destructed
 auto future() {
-  fmt::print("enter {}\n", __FUNCTION__);
+  PG;
   auto future = std::async(std::launch::async, sleep_for_1_second);
-  fmt::print("leave {}\n", __FUNCTION__);
 }
 
 // std::future will call wait before destrcuted
 auto destruct_future() {
-  fmt::print("enter {}\n", __FUNCTION__);
+  PG;
   {
-    fmt::print("enter block\n");
+    print_guard pg("destruct_future block");
     auto future = std::async(std::launch::async, sleep_for_1_second);
-    fmt::print("leave block\n");
   }
-  fmt::print("leave {}\n", __FUNCTION__);
 }
 
 // destructor will call wait and block caller thread
 auto discard_future() {
-  fmt::print("enter {}\n", __FUNCTION__);
+  PG;
   std::async(std::launch::async, sleep_for_1_second);
-  fmt::print("leave {}\n", __FUNCTION__);
 }
 
 // wait will block caller thread
 auto wait_future() {
-  fmt::print("enter {}\n", __FUNCTION__);
+  PG;
   auto future = std::async(std::launch::async, sleep_for_1_second);
   future.wait();
-  fmt::print("leave {}\n", __FUNCTION__);
 }
 
 // get fill block caller thread
 auto get_future() {
-  fmt::print("enter {}\n", __FUNCTION__);
+  PG;
   auto future = std::async(std::launch::async, sleep_for_1_second);
   fmt::print("{}\n", future.get());
-  fmt::print("leave {}\n", __FUNCTION__);
 }
 
 // get fill block caller thread
 auto pass_future(std::future<std::string> f) {
-  fmt::print("enter {}\n", __FUNCTION__);
+  PG;
   fmt::print("{}\n", f.get());
-  fmt::print("leave {}\n", __FUNCTION__);
 }
 
 auto return_void_future() {
@@ -86,34 +81,27 @@ auto return_void_future() {
   return std::async(std::launch::async, sleep_for_1_second);
 }
 
-auto main(int argc, char** argv) -> int {
-  const auto gap = []() {
-    sleep(1_s);
-    fmt::print("\n");
-  };
-
+TEST_CASE("std async usage") {
+  spdlog::stopwatch watch;
   future();
-  gap();
+  CHECK(watch.elapsed().count() > 1);
 
   destruct_future();
-  gap();
+  CHECK(watch.elapsed().count() > 1);
 
   discard_future();
-  gap();
+  CHECK(watch.elapsed().count() > 1);
 
   wait_future();
-  gap();
+  CHECK(watch.elapsed().count() > 1);
 
   get_future();
-  gap();
+  CHECK(watch.elapsed().count() > 1);
 
   pass_future(std::async(std::launch::async, sleep_for_1_second));
-  gap();
+  CHECK(watch.elapsed().count() > 1);
 
   auto ft = return_void_future();
   ft.get();
-  fmt::print("get from return_void_future\n");
-  gap();
-
-  std::getchar();
+  CHECK(watch.elapsed().count() > 1);
 }

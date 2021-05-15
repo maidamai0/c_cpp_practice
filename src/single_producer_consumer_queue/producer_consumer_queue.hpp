@@ -17,14 +17,12 @@
 
 template <typename T>
 class PCQueue {
-public:
+ public:
   using value_type = T;
 
   auto Pop() -> value_type {
     std::unique_lock<std::mutex> lock{mtx_};
-    while (data_.empty()) {
-      cv_.wait(lock);
-    }
+    cv_.wait(lock, [this] { return !data_.empty(); });
     const auto v = data_.front();
     data_.pop();
     return v;
@@ -38,7 +36,7 @@ public:
     cv_.notify_one();
   }
 
-private:
+ private:
   std::queue<value_type> data_;
   std::condition_variable cv_;
   std::mutex mtx_;
