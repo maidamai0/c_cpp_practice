@@ -13,7 +13,7 @@
 
 #include <condition_variable>
 #include <mutex>
-#include <vector>
+#include <queue>
 
 template <typename T>
 class PCQueue {
@@ -25,21 +25,21 @@ public:
     while (data_.empty()) {
       cv_.wait(lock);
     }
-    const auto v = data_.back();
-    data_.pop_back();
+    const auto v = data_.front();
+    data_.pop();
     return v;
   }
 
   void Push(value_type v) {
     {
       std::unique_lock<std::mutex> lock{mtx_};
-      data_.push_back(v);
+      data_.push(v);
     }
     cv_.notify_one();
   }
 
 private:
-  std::vector<value_type> data_;
+  std::queue<value_type> data_;
   std::condition_variable cv_;
   std::mutex mtx_;
 };

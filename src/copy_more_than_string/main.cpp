@@ -4,6 +4,7 @@
 #include <string>
 #include <thread>
 #include <vector>
+#include <cstring>
 
 template <typename T, size_t size>
 auto operator<<(std::ostream& os, std::array<T, size> arr) -> std::ostream& {

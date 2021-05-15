@@ -3,7 +3,6 @@
 #include <fstream>
 #include <iomanip>
 #include <iostream>
-#include <vcruntime.h>
 #include <vector>
 #include <nanobench.h>
 

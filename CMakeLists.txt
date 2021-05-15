@@ -16,6 +16,7 @@ if(WIN32)
   add_compile_options(/Zc:__cplusplus) # see https://docs.microsoft.com/en-us/cpp/build/reference/zc-cplusplus?view=msvc-160 for detail
 else()
   add_compile_options(-fcoroutines)
+  link_libraries(pthread)
 endif()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

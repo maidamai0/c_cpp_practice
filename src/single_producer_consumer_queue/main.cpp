@@ -16,15 +16,16 @@ auto print(Args&&... args) {
 }
 
 PCQueue<int> queue;
-std::atomic_bool quit = false;
 
 int64_t sum_produce = 0;
 int64_t sum_consume = 0;
 
 auto consumer() {
-  while (!quit) {
+  while (true) {
     const auto v = queue.Pop();
-    // print("consume: {}\n", v);
+    if(v < 0) {
+      break;
+    }
     sum_consume += v;
   }
 }
@@ -34,16 +35,15 @@ auto producer() {
     queue.Push(i);
     sum_produce += i;
   }
+  queue.Push(-1);
 }
 
 TEST_CASE("int") {
   auto c = std::thread(consumer);
   auto p = std::thread(producer);
   p.join();
+  c.join();
 
-  using namespace std::chrono_literals;
-  std::this_thread::sleep_for(5s);
   print("sum_produce is {}, sum_consumer is {}\n", sum_produce, sum_consume);
-  c.detach();
   CHECK(sum_produce == sum_consume);
 }
