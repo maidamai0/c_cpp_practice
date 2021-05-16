@@ -1,0 +1,8 @@
+file(GLOB srcs *.cpp)
+get_filename_component(app ${CMAKE_CURRENT_SOURCE_DIR} NAME)
+if(WIN32)
+    message(STATUS "${app} needs posix, not supported on windows")
+else()
+    add_executable(${app} ${srcs})
+    target_include_directories(${app} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
+endif()
