@@ -13,7 +13,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 if(WIN32)
   # add_compile_options(/fsanitize=address)
   set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-  add_compile_options(/Zc:__cplusplus) # see https://docs.microsoft.com/en-us/cpp/build/reference/zc-cplusplus?view=msvc-160 for detail
+  add_compile_options(/Zc:__cplusplus /permissive-) # see https://docs.microsoft.com/en-us/cpp/build/reference/zc-cplusplus?view=msvc-160 for detail
 else()
   add_compile_options(-fcoroutines)
   link_libraries(pthread)
@@ -42,6 +42,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/deps/nlohmann_json/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/deps/doctest)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/deps/magic_enum/include)
 link_libraries(fmt::fmt-header-only)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/deps/pybind11)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/deps/pybind11/include)
 
 enable_testing()
 add_subdirectory(src)

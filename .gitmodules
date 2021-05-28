@@ -13,3 +13,7 @@
 [submodule "deps/magic_enum"]
 	path = deps/magic_enum
 	url = https://github.com/Neargye/magic_enum.git
+[submodule "deps/pybind11"]
+	path = deps/pybind11
+	url = ../../pybind/pybind11
+	branch = stable
