@@ -1,10 +1,12 @@
 import ctypes
 import os
+import pathlib
 
 
 def main():
-    lib_name = os.path.join(os.path.abspath(
-        '../../build/bin'), "cppmodule.dll")
+    lib_name = str(pathlib.Path(__file__).absolute(
+    ).parent.parent.parent/"build/bin/cppmodule.dll")
+
     c_lib = ctypes.CDLL(lib_name)
     print(f"lib is {c_lib}")
 
