@@ -1,0 +1,8 @@
+get_filename_component(module_name ${CMAKE_CURRENT_SOURCE_DIR} NAME)
+file(GLOB srcs *.cpp)
+foreach(src ${srcs})
+  get_filename_component(_app ${src} NAME_WLE)
+  set(app ${module_name}_${_app})
+  add_executable(${app} ${src})
+  add_test(${app}_text ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${app})
+endforeach(src)

@@ -44,6 +44,7 @@ TEST_CASE("int") {
   p.join();
   c.join();
 
-  print("sum_produce is {}, sum_consumer is {}\n", sum_produce, sum_consume);
+  fmt::print("sum_produce is {}, sum_consumer is {}\n", sum_produce,
+             sum_consume);
   CHECK(sum_produce == sum_consume);
 }
