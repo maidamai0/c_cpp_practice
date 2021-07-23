@@ -10,6 +10,8 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+add_compile_definitions(_UNICODE UNICODE)
+
 if(WIN32)
   # add_compile_options(/fsanitize=address)
   set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
