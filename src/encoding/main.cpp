@@ -32,14 +32,22 @@ std::wstring utf8_to_widechar(const std::string& str) {
 
 void test_filename() {
   const auto fn = utf8_to_widechar("中文.txt");  // OK
-  const auto fn1 = std::wstring(L"中文1.txt");   // error
-  for (const auto name : {fn, fn1}) {
-    std::ofstream ofs(name);
-    ofs << "中文";
-    ofs.close();
-  }
-}
+  std::ofstream ofs(fn);
+  ofs << "中文";
+  ofs.close();
 
+  const auto fn1 = std::wstring(L"中文1.txt");  // error
+  std::ofstream ofs1(fn1);
+  ofs1 << "中文1";
+  ofs1.close();
+
+  const auto fn2 = utf8_to_widechar("中文2.txt");  // OK
+  const auto temp_fn = std::string("temp.txt");
+  std::ofstream ofs2(temp_fn);
+  ofs2 << "中文2";
+  ofs2.close();
+  std::filesystem::rename(temp_fn, fn2);
+}
 #endif
 
 auto main(int argc, char** argv) -> int {
