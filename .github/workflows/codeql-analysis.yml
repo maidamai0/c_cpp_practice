@@ -14,6 +14,8 @@ name: "CodeQL"
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
+  CC: gcc-10
+  CXX: g++-10
 
 on:
   push:
