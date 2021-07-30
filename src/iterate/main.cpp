@@ -1,12 +1,23 @@
 #include <algorithm>
+#include <cassert>
 #include <cstddef>
 #include <iostream>
 #include <iterator>
 #include <vector>
 
-#include "fmt/core.h"
+#include "doctest/doctest.h"
+#include "fmt/format.h"
 
-class integers {
+/**
+ * @brief base class for test iterators
+ *
+ */
+class range_base {
+ protected:
+  std::vector<int> data_ = std::vector<int>(200, 0);
+};
+
+class custom_iterator : public range_base {
  public:
   struct Iterator {
     using iterator_category = std::forward_iterator_tag;
@@ -44,16 +55,48 @@ class integers {
 
   Iterator begin() { return Iterator(&data_[0]); };
   Iterator end() { return Iterator(&data_[200]); }
-
- private:
-  std::vector<int> data_ = std::vector<int>(200, 0);
 };
 
-int main(int argc, char** argv) {
-  integers ints;
+class use_std_iterator : public range_base {
+ public:
+  struct iterator : public std::iterator<std::forward_iterator_tag, int> {
+    explicit iterator(int* ptr) : ptr_(ptr) {}
+    iterator& operator++() {
+      ++ptr_;
+      return *this;
+    }
+
+    iterator operator++(int) {
+      const auto retval = *this;
+      ++ptr_;
+      return retval;
+    }
+
+    friend bool operator==(const iterator& lhs, const iterator& rhs) {
+      return lhs.ptr_ == rhs.ptr_;
+    }
+
+    friend bool operator!=(const iterator& lhs, const iterator& rhs) {
+      return lhs.ptr_ != rhs.ptr_;
+    }
+
+    reference operator*() const { return *ptr_; }
+
+   private:
+    pointer ptr_;
+  };
+
+  iterator begin() { return iterator(&data_[0]); };
+  iterator end() { return iterator(&data_[200]); }
+};
+
+template <typename RangeType>
+void test() {
+  fmt::print("Test {}\n", typeid(RangeType).name());
+  RangeType ints;
   std::cout << "original:\n";
   for (const auto i : ints) {
-    std::cout << i << std::endl;
+    assert(i == 0);
   }
 
   std::fill(ints.begin(), ints.end(), 100);
@@ -61,5 +104,9 @@ int main(int argc, char** argv) {
   for (const auto i : ints) {
     std::cout << i << std::endl;
   }
-  return 0;
+}
+
+TEST_CASE("iterator") {
+  test<custom_iterator>();
+  test<use_std_iterator>();
 }
