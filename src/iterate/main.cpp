@@ -94,16 +94,22 @@ template <typename RangeType>
 void test() {
   fmt::print("Test {}\n", typeid(RangeType).name());
   RangeType ints;
+  int cnt = 0;
   std::cout << "original:\n";
   for (const auto i : ints) {
     assert(i == 0);
+    ++cnt;
   }
+  assert(cnt == 200);
 
   std::fill(ints.begin(), ints.end(), 100);
   std::cout << "all 100\n";
+  cnt = 0;
   for (const auto i : ints) {
-    std::cout << i << std::endl;
+    assert(i == 100);
+    ++cnt;
   }
+  assert(cnt == 200);
 }
 
 TEST_CASE("iterator") {
