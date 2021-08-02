@@ -44,6 +44,8 @@ class Init {
     std::cout << "Init(int a, int b)" << '\n';
   }
 
+  Init() { std::cout << "Init()" << '\n'; }
+
   Init(std::initializer_list<double> il) {
     std::cout << "Init(std::initializer_list<double> il)" << '\n';
     a_ = std::data(il)[0];
@@ -63,6 +65,9 @@ void test_init_list() {
 
   Init c = {3, 4};
   std::cout << b.a_ << " " << b.b_ << std::endl;
+
+  Init d = {};
+  Init e = {{}};
 }
 
 auto main(int argc, char** argv) -> int {
