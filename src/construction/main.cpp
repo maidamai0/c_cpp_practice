@@ -1,4 +1,6 @@
+#include <initializer_list>
 #include <iostream>
+#include <iterator>
 #include <string>
 #include <vector>
 
@@ -36,10 +38,39 @@ public:
   }
 };
 
+class Init {
+ public:
+  Init(int a, int b) : a_(a), b_(b) {
+    std::cout << "Init(int a, int b)" << '\n';
+  }
+
+  Init(std::initializer_list<double> il) {
+    std::cout << "Init(std::initializer_list<double> il)" << '\n';
+    a_ = std::data(il)[0];
+    b_ = std::data(il)[1];
+  }
+
+  int a_;
+  int b_;
+};
+
+void test_init_list() {
+  Init a(1, 2);
+  std::cout << a.a_ << " " << a.b_ << std::endl;
+
+  Init b = {3.0, 4.0};
+  std::cout << b.a_ << " " << b.b_ << std::endl;
+
+  Init c = {3, 4};
+  std::cout << b.a_ << " " << b.b_ << std::endl;
+}
+
 auto main(int argc, char** argv) -> int {
   Foo foo{{"base1", 2}, 1, 2, 3}; // How `foo` is constructed, any constructor get called?
   foo.print();
 
   Foo foo1{{"base2", 2}, 1, 2, 3, "string", 3};
   foo1.print();
+
+  test_init_list();
 }
