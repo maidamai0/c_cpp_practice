@@ -1,0 +1,12 @@
+get_filename_component(_name ${CMAKE_CURRENT_LIST_DIR} NAME)
+file(GLOB srcs *.cpp)
+find_package(OpenSSL)
+if(OPENSSL_FOUND)
+  if(MSVC)
+    list(APPEND srcs ${OPENSSL_APPLINK_SOURCE})
+  endif()
+
+  add_executable(${_name} ${srcs})
+  target_include_directories(${_name} PRIVATE ${OPENSSL_INCLUDE_DIR})
+  target_link_libraries(${_name} PRIVATE OpenSSL::Crypto)
+endif()
