@@ -124,10 +124,16 @@ auto main(int argc, char** argv) -> int {
     },
     1, 2, 3);
 
+  auto no_args = pool.Push([]() {
+    std::cout << "completed in worker #" << std::this_thread::get_id()
+              << ", No args" << std::endl;
+  });
+
   assert(ret.get() == 1);
   assert(ret2.get() == 2);
   assert(hello.get() == "hello world");
   assert(sum.get() == 6);
+  no_args.get();
 
   const auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - start);
   std::cout << elapsed.count() << " seconds elapsed" << std::endl;
