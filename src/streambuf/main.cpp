@@ -1,6 +1,7 @@
 #include <cctype>
 #include <cstdio>
 #include <cstdlib>
+#include <fstream>
 #include <iostream>
 #include <locale>
 #include <ostream>
@@ -20,9 +21,16 @@ class myoutbuf : public std::streambuf {
   }
 };
 
+void read_file_to_console() {
+  std::ifstream file("README.md");
+  std::cout << file.rdbuf();
+}
+
 int main(int argc, char** argv) {
   myoutbuf ob;
   std::ostream os(&ob);
   os << "31 hexadeicmal: " << std::hex << 31 << std::endl;
+
+  read_file_to_console();
   return EXIT_SUCCESS;
 }
