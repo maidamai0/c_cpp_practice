@@ -67,7 +67,7 @@ int main(int argc, char** argv) {
           double d) { std::cout << a << " " << s << " " << d << std::endl; },
        1, "hello", 3.14);
 
-  array a{1, 2, 3, 4};
+  // array a{1, 2, 3, 4};
   array<int, 4> ddd2;
 
   return 0;
