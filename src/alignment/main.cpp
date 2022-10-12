@@ -3,14 +3,24 @@
 #include <cstdint>
 #include <ios>
 #include <iostream>
+#include <thread>
 #include <typeinfo>
+
+#include "nanobench.h"
 
 class Class1 {
 public:
   Class1() = default;
 
-private:
+ private:
   double double_data_{};
+};
+class Class1Alignas {
+ public:
+  Class1Alignas() = default;
+
+ private:
+  alignas(16) double double_data_{};
 };
 
 class Class2 {
@@ -60,13 +70,40 @@ auto print_alignment() {
   delete object;
 }
 
-template <typename T>
-auto check_address() {
+void increment(int* p) {
+  for (int i = 0; i < 100'000'000; ++i) {
+    *p += 1;
+  }
 }
+
+void f() {
+  int i0 = 0;
+  int i1 = 0;
+
+  std::thread t0(&increment, &i0);
+  std::thread t1(&increment, &i0);
+
+  t0.join();
+  t1.join();
+}
+
+void f_align() {
+  alignas(256) int i0 = 0;
+  alignas(256) int i1 = 0;
+
+  std::thread t0(&increment, &i0);
+  std::thread t1(&increment, &i0);
+
+  t0.join();
+  t1.join();
+}
+
+alignas(8) int a = 0;
 
 auto main(int argc, char** argv) -> int {
   print_alignment<std::max_align_t>();
   print_alignment<Class1>();
+  print_alignment<Class1Alignas>();
   print_alignment<Class2>();
   print_alignment<Class3>();
   print_alignment<Class4>();
@@ -75,4 +112,7 @@ auto main(int argc, char** argv) -> int {
   print_alignment<Class7>();
   print_alignment<Class8>();
   print_alignment<Class9>();
+
+  ankerl::nanobench::Bench().run("no alignas", f);
+  ankerl::nanobench::Bench().run("alignas(64)", f);
 }
