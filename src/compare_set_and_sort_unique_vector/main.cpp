@@ -37,9 +37,8 @@ void test() {
       }
 
       std::sort(sort_unique_vector.begin(), sort_unique_vector.end());
-      sort_unique_vector.erase(
-          std::unique(sort_unique_vector.begin(), sort_unique_vector.end()),
-          sort_unique_vector.end());
+      sort_unique_vector.erase(std::unique(sort_unique_vector.begin(), sort_unique_vector.end()),
+                               sort_unique_vector.end());
     }
     fmt::print("vector size is {}\n", sort_unique_vector.size());
     fmt::print("elapsed: {} seconds\n", watch);

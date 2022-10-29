@@ -21,8 +21,7 @@ static inline bool is_base64(unsigned char c) {
   return (isalnum(c) || (c == '+') || (c == '/'));
 }
 
-std::string base64_encode(unsigned char const *bytes_to_encode,
-                          unsigned int in_len) {
+std::string base64_encode(unsigned char const *bytes_to_encode, unsigned int in_len) {
   std::string ret;
   int i = 0;
   int j = 0;
@@ -33,10 +32,8 @@ std::string base64_encode(unsigned char const *bytes_to_encode,
     char_array_3[i++] = *(bytes_to_encode++);
     if (i == 3) {
       char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
-      char_array_4[1] =
-          ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
-      char_array_4[2] =
-          ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
+      char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
+      char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
       char_array_4[3] = char_array_3[2] & 0x3f;
 
       for (i = 0; (i < 4); i++) ret += base64_chars[char_array_4[i]];
@@ -48,10 +45,8 @@ std::string base64_encode(unsigned char const *bytes_to_encode,
     for (j = i; j < 3; j++) char_array_3[j] = '\0';
 
     char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
-    char_array_4[1] =
-        ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
-    char_array_4[2] =
-        ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
+    char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
+    char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
     char_array_4[3] = char_array_3[2] & 0x3f;
 
     for (j = 0; (j < i + 1); j++) ret += base64_chars[char_array_4[j]];
@@ -70,18 +65,14 @@ std::string base64_decode(std::string const &encoded_string) {
   unsigned char char_array_4[4], char_array_3[3];
   std::string ret;
 
-  while (in_len-- && (encoded_string[in_] != '=') &&
-         is_base64(encoded_string[in_])) {
+  while (in_len-- && (encoded_string[in_] != '=') && is_base64(encoded_string[in_])) {
     char_array_4[i++] = encoded_string[in_];
     in_++;
     if (i == 4) {
-      for (i = 0; i < 4; i++)
-        char_array_4[i] = base64_chars.find(char_array_4[i]);
+      for (i = 0; i < 4; i++) char_array_4[i] = base64_chars.find(char_array_4[i]);
 
-      char_array_3[0] =
-          (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
-      char_array_3[1] =
-          ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
+      char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
+      char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
       char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
 
       for (i = 0; (i < 3); i++) ret += char_array_3[i];
@@ -92,12 +83,10 @@ std::string base64_decode(std::string const &encoded_string) {
   if (i) {
     for (j = i; j < 4; j++) char_array_4[j] = 0;
 
-    for (j = 0; j < 4; j++)
-      char_array_4[j] = base64_chars.find(char_array_4[j]);
+    for (j = 0; j < 4; j++) char_array_4[j] = base64_chars.find(char_array_4[j]);
 
     char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
-    char_array_3[1] =
-        ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
+    char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
     char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
 
     for (j = 0; (j < i - 1); j++) ret += char_array_3[j];
@@ -140,8 +129,7 @@ std::string encrypt(const std::string plaintext) {
   }
 
   unsigned_string plain_string;
-  std::copy(plaintext.cbegin(), plaintext.cend(),
-            std::back_inserter(plain_string));
+  std::copy(plaintext.cbegin(), plaintext.cend(), std::back_inserter(plain_string));
 
   unsigned_string encrypted_string;
   encrypted_string.resize(plain_string.size() + EVP_CIPHER_CTX_block_size(ctx));
@@ -152,8 +140,7 @@ std::string encrypt(const std::string plaintext) {
    */
 
   int len = 0;
-  if (1 != EVP_EncryptUpdate(ctx, encrypted_string.data(), &len,
-                             plain_string.data(), plain_string.size())) {
+  if (1 != EVP_EncryptUpdate(ctx, encrypted_string.data(), &len, plain_string.data(), plain_string.size())) {
     return std::string{};
   }
   ciphertext_len = len;
@@ -193,8 +180,7 @@ std::string decrypt(std::string const &base64_encoded_string) {
   auto debase64_string = base64_decode(base64_encoded_string);
 
   unsigned_string encrypted_string;
-  std::copy(debase64_string.cbegin(), debase64_string.cend(),
-            std::back_inserter(encrypted_string));
+  std::copy(debase64_string.cbegin(), debase64_string.cend(), std::back_inserter(encrypted_string));
 
   unsigned_string plain_string;
   plain_string.resize(encrypted_string.size());
@@ -205,9 +191,7 @@ std::string decrypt(std::string const &base64_encoded_string) {
    * Provide the message to be decrypted, and obtain the plaintext output.
    * EVP_DecryptUpdate can be called multiple times if necessary.
    */
-  if (1 != EVP_DecryptUpdate(ctx, plain_string.data(), &len,
-                             encrypted_string.data(),
-                             encrypted_string.size())) {
+  if (1 != EVP_DecryptUpdate(ctx, plain_string.data(), &len, encrypted_string.data(), encrypted_string.size())) {
     return {};
   }
   int plaintext_len = len;
@@ -226,8 +210,7 @@ std::string decrypt(std::string const &base64_encoded_string) {
   EVP_CIPHER_CTX_free(ctx);
 
   std::string ret;
-  std::copy(plain_string.cbegin(), plain_string.cend(),
-            std::back_inserter(ret));
+  std::copy(plain_string.cbegin(), plain_string.cend(), std::back_inserter(ret));
 
   return ret;
 }

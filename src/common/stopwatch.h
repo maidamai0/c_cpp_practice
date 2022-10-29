@@ -2,7 +2,7 @@
  * @file stopwatch.h
  * @brief copied from spdlog https://github.com/gabime/spdlog/blob/v2.x/include/spdlog/stopwatch.h
  * @date 2021-05-14
- * 
+ *
  */
 
 // Copyright(c) 2015-present, Gabi Melman & spdlog contributors.
@@ -11,6 +11,7 @@
 #pragma once
 
 #include <fmt/format.h>
+
 #include <chrono>
 
 // Stopwatch support for spdlog  (using std::chrono::high_resolution_clock).
@@ -43,9 +44,7 @@ class stopwatch {
  public:
   stopwatch() : start_tp_{clock::now()} {}
 
-  std::chrono::duration<double> elapsed() const {
-    return std::chrono::duration<double>(clock::now() - start_tp_);
-  }
+  std::chrono::duration<double> elapsed() const { return std::chrono::duration<double>(clock::now() - start_tp_); }
 
   void reset() { start_tp_ = clock ::now(); }
 };
@@ -56,8 +55,7 @@ namespace fmt {
 template <>
 struct formatter<spdlog::stopwatch> : formatter<double> {
   template <typename FormatContext>
-  auto format(const spdlog::stopwatch &sw, FormatContext &ctx)
-      -> decltype(ctx.out()) {
+  auto format(const spdlog::stopwatch &sw, FormatContext &ctx) -> decltype(ctx.out()) {
     return formatter<double>::format(sw.elapsed().count(), ctx);
   }
 };

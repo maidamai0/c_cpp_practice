@@ -41,13 +41,9 @@ class custom_iterator : public range_base {
       return tmp;
     }
 
-    friend bool operator==(const Iterator& lhs, const Iterator& rhs) {
-      return lhs.ptr_ == rhs.ptr_;
-    }
+    friend bool operator==(const Iterator& lhs, const Iterator& rhs) { return lhs.ptr_ == rhs.ptr_; }
 
-    friend bool operator!=(const Iterator& lhs, const Iterator& rhs) {
-      return lhs.ptr_ != rhs.ptr_;
-    }
+    friend bool operator!=(const Iterator& lhs, const Iterator& rhs) { return lhs.ptr_ != rhs.ptr_; }
 
    private:
     pointer ptr_ = nullptr;
@@ -72,13 +68,9 @@ class use_std_iterator : public range_base {
       return retval;
     }
 
-    friend bool operator==(const iterator& lhs, const iterator& rhs) {
-      return lhs.ptr_ == rhs.ptr_;
-    }
+    friend bool operator==(const iterator& lhs, const iterator& rhs) { return lhs.ptr_ == rhs.ptr_; }
 
-    friend bool operator!=(const iterator& lhs, const iterator& rhs) {
-      return lhs.ptr_ != rhs.ptr_;
-    }
+    friend bool operator!=(const iterator& lhs, const iterator& rhs) { return lhs.ptr_ != rhs.ptr_; }
 
     reference operator*() const { return *ptr_; }
 

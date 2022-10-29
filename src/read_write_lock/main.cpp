@@ -1,11 +1,10 @@
-#include "fmt/format.h"
 #include <vector>
 
+#include "fmt/format.h"
+
 class Foo {
-public:
-  [[nodiscard]] auto GetList() -> std::vector<int>& {
-    return list_;
-  }
+ public:
+  [[nodiscard]] auto GetList() -> std::vector<int>& { return list_; }
 
   void Print() const {
     fmt::print("list content is:\n");
@@ -15,7 +14,7 @@ public:
     fmt::print("\n");
   }
 
-private:
+ private:
   std::vector<int> list_{1, 2, 3};
 };
 

@@ -1,18 +1,18 @@
 #include <memory>
 
 class AllPublic {
-public:
+ public:
   AllPublic() = default;
   AllPublic(int a){};
   ~AllPublic() = default;
 };
 
 class PrivateConstructor {
-private:
+ private:
   PrivateConstructor() = default;
   PrivateConstructor(int){};
 
-public:
+ public:
   static std::shared_ptr<PrivateConstructor> create() {
     return std::shared_ptr<PrivateConstructor>(new PrivateConstructor());
   }
@@ -21,15 +21,15 @@ public:
 };
 
 class PrivateDestructor {
-public:
+ public:
   PrivateDestructor() = default;
 
-private:
+ private:
   ~PrivateDestructor() = default;
 };
 
 class AllPrivate {
-private:
+ private:
   AllPrivate() = default;
   ~AllPrivate() = default;
 };

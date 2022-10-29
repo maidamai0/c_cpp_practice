@@ -16,7 +16,7 @@
 class ThreadPool {
   using task_type = std::function<void()>;
 
-public:
+ public:
   ThreadPool(size_t num = std::thread::hardware_concurrency()) {
     for (size_t i = 0; i < num; ++i) {
       workers_.emplace_back(std::thread([this] {
@@ -40,9 +40,7 @@ public:
     }
   }
 
-  ~ThreadPool() {
-    Stop();
-  }
+  ~ThreadPool() { Stop(); }
 
   void Stop() {
     push_stop_task();
@@ -60,8 +58,8 @@ public:
   template <typename F, typename... Args>
   auto Push(F&& f, Args&&... args) {
     using return_type = std::invoke_result_t<F, Args...>;
-    auto task
-      = std::make_shared<std::packaged_task<return_type()>>(std::bind(std::forward<F>(f), std::forward<Args>(args)...));
+    auto task =
+        std::make_shared<std::packaged_task<return_type()>>(std::bind(std::forward<F>(f), std::forward<Args>(args)...));
     auto res = task->get_future();
 
     {
@@ -73,7 +71,7 @@ public:
     return res;
   }
 
-private:
+ private:
   void push_stop_task() {
     std::lock_guard<std::mutex> lock(task_mutex_);
     tasks_.push(task_type{});
@@ -91,43 +89,41 @@ auto main(int argc, char** argv) -> int {
   const auto start = std::chrono::steady_clock::now();
 
   auto ret = pool.Push(
-    [](int sec) {
-      std::this_thread::sleep_for(std::chrono::seconds(sec));
-      std::cout << "completed in worker #" << std::this_thread::get_id() << std::endl;
-      return 1;
-    },
-    2);
+      [](int sec) {
+        std::this_thread::sleep_for(std::chrono::seconds(sec));
+        std::cout << "completed in worker #" << std::this_thread::get_id() << std::endl;
+        return 1;
+      },
+      2);
 
   auto ret2 = pool.Push(
-    [](std::chrono::seconds sec) {
-      std::this_thread::sleep_for(sec);
-      std::cout << "completed in worker #" << std::this_thread::get_id() << std::endl;
-      return 2;
-    },
-    std::chrono::seconds(1));
+      [](std::chrono::seconds sec) {
+        std::this_thread::sleep_for(sec);
+        std::cout << "completed in worker #" << std::this_thread::get_id() << std::endl;
+        return 2;
+      },
+      std::chrono::seconds(1));
 
   auto hello = pool.Push(
-    [](std::string&& message) {
-      using namespace std::chrono_literals;
-      std::this_thread::sleep_for(1s);
-      std::cout << "completed in worker #" << std::this_thread::get_id() << std::endl;
-      return "hello " + message;
-    },
-    "world");
+      [](std::string&& message) {
+        using namespace std::chrono_literals;
+        std::this_thread::sleep_for(1s);
+        std::cout << "completed in worker #" << std::this_thread::get_id() << std::endl;
+        return "hello " + message;
+      },
+      "world");
 
   auto sum = pool.Push(
-    [](int x, int y, int z) {
-      using namespace std::chrono_literals;
-      std::this_thread::sleep_for(1s);
-      std::cout << "completed in worker #" << std::this_thread::get_id() << std::endl;
-      return x + y + z;
-    },
-    1, 2, 3);
+      [](int x, int y, int z) {
+        using namespace std::chrono_literals;
+        std::this_thread::sleep_for(1s);
+        std::cout << "completed in worker #" << std::this_thread::get_id() << std::endl;
+        return x + y + z;
+      },
+      1, 2, 3);
 
-  auto no_args = pool.Push([]() {
-    std::cout << "completed in worker #" << std::this_thread::get_id()
-              << ", No args" << std::endl;
-  });
+  auto no_args = pool.Push(
+      []() { std::cout << "completed in worker #" << std::this_thread::get_id() << ", No args" << std::endl; });
 
   assert(ret.get() == 1);
   assert(ret2.get() == 2);

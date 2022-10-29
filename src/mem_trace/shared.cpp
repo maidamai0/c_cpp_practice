@@ -1,4 +1,5 @@
 #include "shared.h"
+
 #include <iostream>
 
 void SharedLib::Print() {

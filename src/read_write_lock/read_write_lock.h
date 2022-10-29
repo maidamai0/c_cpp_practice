@@ -3,7 +3,7 @@
 #include <atomic>
 
 class ReadWriteLock final {
-public:
+ public:
   ReadWriteLock();
   void Read();
   void Write();
@@ -11,8 +11,8 @@ public:
   ReadWriteLock(const ReadWriteLock&) = delete;
   auto operator=(const ReadWriteLock&) -> ReadWriteLock& = delete;
   ReadWriteLock(ReadWriteLock&&) = delete;
-  auto operator=(ReadWriteLock &&) -> ReadWriteLock& = delete;
+  auto operator=(ReadWriteLock&&) -> ReadWriteLock& = delete;
 
-private:
+ private:
   std::atomic_uint64_t num_reader_;
 };

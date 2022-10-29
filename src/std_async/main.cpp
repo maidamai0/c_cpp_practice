@@ -17,9 +17,7 @@ auto sleep(const std::chrono::seconds secs) -> void {
 
 class print_guard {
  public:
-  print_guard(std::string&& message) : message_(message) {
-    fmt::print("enter {}\n", message_);
-  }
+  print_guard(std::string&& message) : message_(message) { fmt::print("enter {}\n", message_); }
 
   ~print_guard() { fmt::print("leave {}\n", message_); }
 

@@ -6,8 +6,8 @@
 
 namespace {
 constexpr auto max_retry_num = 5;
-constexpr auto reader_num_for_writer = std::numeric_limits<uint64_t>::max(); // 0xffff ffff
-} // namespace
+constexpr auto reader_num_for_writer = std::numeric_limits<uint64_t>::max();  // 0xffff ffff
+}  // namespace
 
 void ReadWriteLock::Read() {
   auto retry = 0;

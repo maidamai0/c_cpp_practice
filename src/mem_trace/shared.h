@@ -3,13 +3,13 @@
 #include <string>
 
 class SharedLib {
-public:
+ public:
   SharedLib() = default;
   ~SharedLib() = default;
 
   void Print();
 
-private:
+ private:
   std::string s_;
   double d_ = 0.0;
   int a_ = 0;

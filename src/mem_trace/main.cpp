@@ -1,9 +1,9 @@
-#include "shared.h"
-#include "static.h"
-
 #include <iostream>
 #include <mutex>
 #include <string>
+
+#include "shared.h"
+#include "static.h"
 
 std::mutex mtx;
 
@@ -34,11 +34,11 @@ auto operator delete(void* p) noexcept -> void {
 }
 
 class Object {
-public:
+ public:
   Object() = default;
   ~Object() = default;
 
-private:
+ private:
   int a_;
   int b_;
 };
@@ -70,7 +70,7 @@ auto main(int argc, char** argv) -> int {
 
   {
     auto* str = new std::string(
-      "sgfhdsfads fjdsfjlkdsafjkladsjfidsajfliadsjfoiadsjfiadsjflkadsjflkadsnfkdsalfhadsfjh;fasdfsdfgadgagfdfasgs");
+        "sgfhdsfads fjdsfjlkdsafjkladsjfidsajfliadsjfoiadsjfiadsjflkadsjflkadsnfkdsalfhadsfjh;fasdfsdfgadgagfdfasgs");
     delete str;
     printf("\n");
   }

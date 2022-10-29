@@ -17,11 +17,11 @@
 #include <vector>
 
 constexpr auto hashFnv1b(const char* s, unsigned int fnv1a_basis = 0x811c9dc5, unsigned int fnv1a_prime = 0x01000193)
-  -> unsigned int {
+    -> unsigned int {
   return *s == 0
-           ? fnv1a_basis
-           : hashFnv1b(s + 1,
-                       static_cast<unsigned int>((fnv1a_basis ^ *s) * static_cast<unsigned long long>(fnv1a_prime)));
+             ? fnv1a_basis
+             : hashFnv1b(s + 1,
+                         static_cast<unsigned int>((fnv1a_basis ^ *s) * static_cast<unsigned long long>(fnv1a_prime)));
 }
 
 constexpr auto operator"" _cshash(const char* str, std::size_t len) {

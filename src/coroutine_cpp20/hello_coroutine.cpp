@@ -9,8 +9,7 @@ struct HelloWorldCoro {
     void return_void() {}
     void unhandled_exception() {}
   };
-  HelloWorldCoro(promise_type* p)
-      : m_handle(std::coroutine_handle<promise_type>::from_promise(*p)) {}
+  HelloWorldCoro(promise_type* p) : m_handle(std::coroutine_handle<promise_type>::from_promise(*p)) {}
   ~HelloWorldCoro() { m_handle.destroy(); }
   std::coroutine_handle<promise_type> m_handle;
 };

@@ -8,12 +8,10 @@
 
 std::string widechar_to_utf8(const std::wstring& wstr) {
   std::string utf8_str;
-  int utf8_str_size =
-      WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, 0, 0, 0, 0);
+  int utf8_str_size = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, 0, 0, 0, 0);
   if (utf8_str_size > 0) {
     std::vector<char> buffer(utf8_str_size);
-    WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, &buffer[0], utf8_str_size,
-                        0, 0);
+    WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, &buffer[0], utf8_str_size, 0, 0);
     utf8_str.assign(buffer.begin(), buffer.end() - 1);
   }
   return utf8_str;

@@ -1,13 +1,13 @@
-#include "doctest/doctest.h"
-#include "fmt/format.h"
-#include "producer_consumer_queue.hpp"
-
 #include <atomic>
 #include <cassert>
 #include <cstdio>
 #include <iostream>
 #include <thread>
 #include <utility>
+
+#include "doctest/doctest.h"
+#include "fmt/format.h"
+#include "producer_consumer_queue.hpp"
 
 template <typename... Args>
 auto print(Args&&... args) {
@@ -23,7 +23,7 @@ int64_t sum_consume = 0;
 auto consumer() {
   while (true) {
     const auto v = queue.Pop();
-    if(v < 0) {
+    if (v < 0) {
       break;
     }
     sum_consume += v;
@@ -44,7 +44,6 @@ TEST_CASE("int") {
   p.join();
   c.join();
 
-  fmt::print("sum_produce is {}, sum_consumer is {}\n", sum_produce,
-             sum_consume);
+  fmt::print("sum_produce is {}, sum_consumer is {}\n", sum_produce, sum_consume);
   CHECK(sum_produce == sum_consume);
 }

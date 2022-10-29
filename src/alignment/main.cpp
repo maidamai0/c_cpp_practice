@@ -9,7 +9,7 @@
 #include "nanobench.h"
 
 class Class1 {
-public:
+ public:
   Class1() = default;
 
  private:
@@ -24,10 +24,10 @@ class Class1Alignas {
 };
 
 class Class2 {
-public:
+ public:
   Class2() = default;
 
-private:
+ private:
   char char_data_{};
 };
 

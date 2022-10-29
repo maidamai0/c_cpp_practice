@@ -18,7 +18,7 @@ class SingleTon;
 static SingleTon* instance = nullptr;
 
 class SingleTon {
-public:
+ public:
   static auto GetInstance() -> auto* {
     [[maybe_unused]] static auto init = []() {
       printf("initialization code\n");
@@ -29,10 +29,8 @@ public:
     return instance;
   }
 
-private:
-  SingleTon() {
-    printf("%s\n", __FUNCTION__);
-  }
+ private:
+  SingleTon() { printf("%s\n", __FUNCTION__); }
 };
 
 constexpr auto thread_num = 200;

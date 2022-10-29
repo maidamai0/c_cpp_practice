@@ -5,9 +5,7 @@
 
 class ScopeTrace {
  public:
-  ScopeTrace(std::string_view function) : function_{function} {
-    std::cout << "enter " << function_ << std::endl;
-  }
+  ScopeTrace(std::string_view function) : function_{function} { std::cout << "enter " << function_ << std::endl; }
   ~ScopeTrace() { std::cout << "leave " << function_ << std::endl; }
 
  private:

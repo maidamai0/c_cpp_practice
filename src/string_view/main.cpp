@@ -1,12 +1,12 @@
-#include "fmt/format.h"
-#include "magic_enum.hpp"
-
 #include <charconv>
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
 #include <string_view>
 #include <variant>
+
+#include "fmt/format.h"
+#include "magic_enum.hpp"
 
 enum class EnumTest { Prefix_First, PRefix_Second_element };
 
@@ -82,7 +82,7 @@ auto main(int argc, char** argv) -> int {
   fmt::print("Date digit is [{}]\n", fmt::format("{}/{}/{}", day_digit, month_digit, year_digit));
   std::fflush(stdout);
 
-  fmt::print("ts is [{}]\n", fmt::format("{:02}/{:02}/{}",day_digit, month_digit, year_digit));
+  fmt::print("ts is [{}]\n", fmt::format("{:02}/{:02}/{}", day_digit, month_digit, year_digit));
   std::fflush(stdout);
 
   // constexpr auto year_digit = (year[2] - '0') * 10 + (year[3] - '0');

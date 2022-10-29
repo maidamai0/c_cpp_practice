@@ -1,7 +1,8 @@
 #include <fmt/format.h>
-#include <cstdint>
+
 #include <concepts>
 #include <cstddef>
+#include <cstdint>
 #include <iostream>
 #include <ostream>
 #include <string>

@@ -7,19 +7,13 @@ class OGLWidget final {
   template <typename WidgetType>
   friend class MeshCanvas;
 
-public:
-  OGLWidget() {
-    std::cout << __FUNCTION__ << std::endl;
-  }
+ public:
+  OGLWidget() { std::cout << __FUNCTION__ << std::endl; }
 
-  ~OGLWidget() {
-    std::cout << __FUNCTION__ << std::endl;
-  }
+  ~OGLWidget() { std::cout << __FUNCTION__ << std::endl; }
 
-private:
-  auto call_ogl_only() {
-    std::cout << __FUNCTION__ << std::endl;
-  }
+ private:
+  auto call_ogl_only() { std::cout << __FUNCTION__ << std::endl; }
 
   auto call_common() {
     std::cout << __FUNCTION__ << std::endl;
@@ -36,19 +30,13 @@ class VTKWidget final {
   template <typename WidgetType>
   friend class MeshCanvas;
 
-public:
-  VTKWidget() {
-    std::cout << __FUNCTION__ << std::endl;
-  }
+ public:
+  VTKWidget() { std::cout << __FUNCTION__ << std::endl; }
 
-  ~VTKWidget() {
-    std::cout << __FUNCTION__ << std::endl;
-  }
+  ~VTKWidget() { std::cout << __FUNCTION__ << std::endl; }
 
-private:
-  auto call_vtk_only() {
-    std::cout << __FUNCTION__ << std::endl;
-  }
+ private:
+  auto call_vtk_only() { std::cout << __FUNCTION__ << std::endl; }
 
   auto call_common() {
     std::cout << __FUNCTION__ << std::endl;
@@ -67,7 +55,7 @@ class MeshCanvas {
   static constexpr auto is_ogl = std::is_same_v<widget_type, OGLWidget>;
   static constexpr auto is_vtk = std::is_same_v<widget_type, VTKWidget>;
 
-public:
+ public:
   // static_assert makes better compiler error message
   auto CallOGLOnly() {
     static_assert(is_ogl, "Only OGLWidget supported");
@@ -81,9 +69,7 @@ public:
   }
 
   // ordinary usage
-  auto CallCommon() {
-    return widget_->call_common();
-  }
+  auto CallCommon() { return widget_->call_common(); }
 
   // use [constexpr if statement](https://en.cppreference.com/w/cpp/language/if#Constexpr_If)
   // to select different method at compile time. c++17 supported compiler needed.
@@ -95,7 +81,7 @@ public:
     }
   }
 
-private:
+ private:
   std::unique_ptr<widget_type> widget_ = std::make_unique<widget_type>();
 };
 

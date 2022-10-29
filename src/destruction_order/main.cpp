@@ -4,42 +4,32 @@
 #include "fmt/format.h"
 
 class ChildA final {
-public:
-  ChildA() {
-    fmt::print("{}\n", __FUNCTION__);
-  }
+ public:
+  ChildA() { fmt::print("{}\n", __FUNCTION__); }
 
   static auto Instance() -> auto& {
     static ChildA instance;
     return instance;
   }
 
-  ~ChildA() {
-    fmt::print("{}\n", __FUNCTION__);
-  }
+  ~ChildA() { fmt::print("{}\n", __FUNCTION__); }
 };
 
 class ChildB final {
-public:
-  ChildB() {
-    fmt::print("{}\n", __FUNCTION__);
-  }
+ public:
+  ChildB() { fmt::print("{}\n", __FUNCTION__); }
 
   static auto Instance() -> auto& {
     static ChildB instance;
     return instance;
   }
 
-  ~ChildB() {
-    fmt::print("{}\n", __FUNCTION__);
-  }
+  ~ChildB() { fmt::print("{}\n", __FUNCTION__); }
 };
 
 class Parent final {
-public:
-  Parent() {
-    fmt::print("{}\n", __FUNCTION__);
-  }
+ public:
+  Parent() { fmt::print("{}\n", __FUNCTION__); }
 
   static auto Instance() -> auto& {
     static Parent instance;

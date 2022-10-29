@@ -1,12 +1,12 @@
+#include <nanobench.h>
+
 #include <array>
 #include <cstdlib>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
-#include <vector>
-#include <nanobench.h>
-
 #include <nlohmann/json.hpp>
+#include <vector>
 
 constexpr auto cache_size_w = 50;
 constexpr auto cache_size_h = 50;
@@ -20,7 +20,7 @@ auto cache_h_w() {
   for (auto i = 0; i < cache_size_h; ++i) {
     for (auto j = 0; j < cache_size_w; ++j) {
       memory["data"].push_back(
-        {{"x", counter++}, {"address", reinterpret_cast<intptr_t>(&matrix[i][j])}, {"legend", "h_w"}});
+          {{"x", counter++}, {"address", reinterpret_cast<intptr_t>(&matrix[i][j])}, {"legend", "h_w"}});
     }
   }
 
@@ -33,7 +33,7 @@ auto cache_h_w_reverse() {
   for (auto i = 0; i < cache_size_h; ++i) {
     for (auto j = 0; j < cache_size_w; ++j) {
       memory["data"].push_back(
-        {{"x", counter++}, {"address", reinterpret_cast<intptr_t>(&matrix[j][i])}, {"legend", "h_w_reverse"}});
+          {{"x", counter++}, {"address", reinterpret_cast<intptr_t>(&matrix[j][i])}, {"legend", "h_w_reverse"}});
     }
   }
 
@@ -46,7 +46,7 @@ auto cache_w_h() {
   for (auto i = 0; i < cache_size_w; ++i) {
     for (auto j = 0; j < cache_size_h; ++j) {
       memory["data"].push_back(
-        {{"x", counter++}, {"address", reinterpret_cast<intptr_t>(&matrix[i][j])}, {"legend", "w_h"}});
+          {{"x", counter++}, {"address", reinterpret_cast<intptr_t>(&matrix[i][j])}, {"legend", "w_h"}});
     }
   }
 
@@ -59,7 +59,7 @@ auto cache_w_h_reverse() {
   for (auto i = 0; i < cache_size_w; ++i) {
     for (auto j = 0; j < cache_size_h; ++j) {
       memory["data"].push_back(
-        {{"x", counter++}, {"address", reinterpret_cast<intptr_t>(&matrix[j][i])}, {"legend", "w_h_reverse"}});
+          {{"x", counter++}, {"address", reinterpret_cast<intptr_t>(&matrix[j][i])}, {"legend", "w_h_reverse"}});
     }
   }
 

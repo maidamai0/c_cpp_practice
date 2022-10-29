@@ -39,9 +39,7 @@ class Foo {
   }
 
  private:
-  friend std::ostream& operator<<(std::ostream& os, const Foo& foo) {
-    return foo.operator<<(os);
-  }
+  friend std::ostream& operator<<(std::ostream& os, const Foo& foo) { return foo.operator<<(os); }
 
  private:
   int value_ = 0;
@@ -51,8 +49,7 @@ template <typename T, size_t size>
 class array {};
 
 template <typename T, typename... U>
-array(T, U...) -> array<std::enable_if_t<(std::is_same_v<T, U> && ...), T>,
-                        (1 + sizeof...(U))>;
+array(T, U...) -> array<std::enable_if_t<(std::is_same_v<T, U> && ...), T>, (1 + sizeof...(U))>;
 
 int main(int argc, char** argv) {
   Foo foo;
@@ -63,9 +60,8 @@ int main(int argc, char** argv) {
 
   print(1, 2, 3, 4, 5);
 
-  Call([](int a, std::string_view s,
-          double d) { std::cout << a << " " << s << " " << d << std::endl; },
-       1, "hello", 3.14);
+  Call([](int a, std::string_view s, double d) { std::cout << a << " " << s << " " << d << std::endl; }, 1, "hello",
+       3.14);
 
   // array a{1, 2, 3, 4};
   array<int, 4> ddd2;
