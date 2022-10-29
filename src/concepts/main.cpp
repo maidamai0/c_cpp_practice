@@ -1,44 +1,51 @@
 #include <fmt/format.h>
-
+#include <cstdint>
+#include <concepts>
+#include <cstddef>
 #include <iostream>
 #include <ostream>
 #include <string>
+#include <utility>
+#include <vector>
 
 // make a concept
 template <typename T>
-concept Addable = requires(T x) {
-  x + x;
-};
+concept Addable = requires(T x) { x + x; };
 
 template <typename T>
-concept Comparable = requires(T x) {
-  x < x;
-};
+concept Comparable = requires(T x) { x < x; };
 
 template <typename T>
-concept Serialiable = requires(T x) {
-  std::cout << x;
-};
+concept Serialiable = requires(T x) { std::cout << x; };
 
 template <typename T>
-concept HasFoo = requires(T x) {
-  x.foo();
-};
+concept HasFoo = requires(T x) { x.foo(); };
 
 template <typename T>
-concept HasBar = requires(T x) {
-  x.bar();
-};
+concept HasBar = requires(T x) { x.bar(); };
+
+using image_t = std::vector<std::byte>;
+template <typename T>
+concept IsRender = requires(T render) {
+                     { render.image() } -> std::convertible_to<std::pair<image_t, bool>>;
+                     { render.load_volume() } -> std::convertible_to<bool>;
+                     { render.load_config() } -> std::convertible_to<bool>;
+                     { render.save_config() } -> std::convertible_to<bool>;
+                     { render.on_rotate() } -> std::convertible_to<bool>;
+                     { render.on_pan() } -> std::convertible_to<bool>;
+                     { render.on_zoom() } -> std::convertible_to<bool>;
+                   };
 
 // use a concept
 template <typename T>
-requires Addable<T>&& Comparable<T>&& Serialiable<T> auto UseAddConcept(T a,
-                                                                        T b) {
+  requires Addable<T> && Comparable<T> && Serialiable<T>
+auto UseAddConcept(T a, T b) {
   return a + b;
 }
 
 template <typename T>
-requires Addable<T> auto UseAddable(T a, T b) {
+  requires Addable<T>
+auto UseAddable(T a, T b) {
   return a + b;
 }
 
@@ -76,20 +83,65 @@ struct FooBar {
 };
 
 template <typename T>
-requires HasFoo<T> void call_foo(T x) {
+  requires HasFoo<T>
+void call_foo(T x) {
   x.foo();
 }
 
 template <typename T>
-requires HasBar<T> void call_bar(T x) {
+  requires HasBar<T>
+void call_bar(T x) {
   x.bar();
 }
 
 template <typename T>
-requires HasBar<T>&& HasFoo<T> void call_foo_bar(T x) {
+  requires HasBar<T> && HasFoo<T>
+void call_foo_bar(T x) {
   x.foo();
   x.bar();
 }
+
+class GLRender {
+ public:
+  auto image() { return std::make_pair(image_t(), true); }
+  auto load_volume() { return true; }
+  auto load_config() { return true; }
+  auto save_config() { return true; }
+  auto on_rotate() { return true; }
+  auto on_pan() { return true; }
+  auto on_zoom() { return true; }
+};
+
+class NullRender {
+ public:
+  auto image() {}
+  auto load_volume() {}
+  auto load_config() {}
+  auto save_config() {}
+  auto on_rotate() {}
+  auto on_pan() {}
+  // auto on_zoom() {}
+};
+
+template <typename RenderType>
+  requires IsRender<RenderType>
+class UseRender {
+ public:
+  auto image() { render_.image(); }
+
+  auto load_volume() { return render_.load_volume(); }
+
+  auto load_config() { return render_.load_config(); }
+
+  auto save_config() { return render_.save_config(); }
+
+  auto on_rotate() { return render_.on_rotate(); }
+
+  auto on_pan() { return render_.on_pan(); }
+
+ private:
+  RenderType render_;
+};
 
 int main(int argc, char** argv) {
   // i is addable
@@ -124,6 +176,8 @@ int main(int argc, char** argv) {
   call_foo(foo);
   call_bar(bar);
   call_foo_bar(foo_bar);
+
+  UseRender<GLRender> gl_render;
 
   return 0;
 }
