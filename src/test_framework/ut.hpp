@@ -76,7 +76,7 @@ inline int run_unit_test() {
 #define CHECK(x)                                                                          \
   if (!(x)) {                                                                             \
     std::cerr << "CHECK failed: " << #x << " at " << __FILE__ << ':' << __LINE__ << '\n'; \
-    throw std::exception(#x);                                                             \
+    throw std::runtime_error(#x);                                                         \
   }
 
 #ifdef UT_MAIN
