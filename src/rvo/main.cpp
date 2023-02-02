@@ -1,12 +1,14 @@
 #include <string>
 #include <vector>
 
+#include "fmt/core.h"
 #include "fmt/format.h"
 
 struct Foo {
-  Foo() { fmt::print("Foo::Foo()\n"); }
-  ~Foo() { fmt::print("Foo::~Foo()\n"); }
-  // Foo(Foo&& f) { fmt::print("Foo::Foo(Foo&&)\n"); }
+  Foo() { fmt::print("{}\n", __FUNCTION__); }
+  ~Foo() { fmt::print("{}\n", __FUNCTION__); }
+  Foo(Foo&& f) { fmt::print("{}\n", __FUNCTION__); }
+  Foo(Foo& f) { fmt::print("{}\n", __FUNCTION__); }
 
   std::string s_;
   std::string s1_;
@@ -23,7 +25,12 @@ auto get_foo() {
   return foo;
 }
 
+auto get_foo1() {
+  return Foo();
+}
+
 auto main(int argc, char** argv) -> int {
-  auto foo = get_foo();
-  fmt::print("foo.i_ = {}\n", foo.i_);
+  { auto foo = get_foo(); }
+
+  { auto foo1 = get_foo1(); }
 }
