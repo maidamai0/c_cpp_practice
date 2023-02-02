@@ -29,8 +29,17 @@ auto get_foo1() {
   return Foo();
 }
 
+auto get_vector_foo() {
+  std::vector<Foo> foos;
+  foos.reserve(4);
+  foos.emplace_back();
+  foos.emplace_back();
+
+  return foos;
+}
+
 auto main(int argc, char** argv) -> int {
   { auto foo = get_foo(); }
-
+  { auto ves = get_vector_foo(); }
   { auto foo1 = get_foo1(); }
 }
