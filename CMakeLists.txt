@@ -17,7 +17,7 @@ if(WIN32)
   set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
   add_compile_options(/Zc:__cplusplus /permissive-) # see https://docs.microsoft.com/en-us/cpp/build/reference/zc-cplusplus?view=msvc-160 for detail
 else()
-  # add_compile_options(-fcoroutines)
+  add_compile_options(-fcoroutines)
   link_libraries(pthread)
 endif()
 
