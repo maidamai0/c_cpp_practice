@@ -1,5 +1,7 @@
 #include <algorithm>
 #include <execution>
+#include <iostream>
+#include <numeric>
 #include <vector>
 
 #include "common/scope_timer.h"
@@ -14,7 +16,7 @@ int main(int argc, char** argv) {
   {
     TIMER("parallel_for");
     parallel_for(
-        0, size, [&numbers_para](int i) { numbers_para[i] = i * 2; }, 500'000'000);
+        0, size, [&numbers_para](int i) { numbers_para[i] = i * 2; }, 100'000'000);
   }
 
   //   {
@@ -26,7 +28,7 @@ int main(int argc, char** argv) {
 
   {
     TIMER("std parallel");
-    std::for_each(std::execution::par, numbers_std_para.begin(), numbers_std_para.end(), [](int i) { return i * 2; });
+    std::for_each(std::execution::par, numbers_std_para.begin(), numbers_std_para.end(), [](int& i) { i = i * 2; });
   }
 
   return 0;
