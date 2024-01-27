@@ -1,9 +1,8 @@
 
 #pragma once
 
-#include <vcruntime.h>
-
 #include <cassert>
+#include <cstddef>
 
 template <typename T, int D>
 class array_buffer {
